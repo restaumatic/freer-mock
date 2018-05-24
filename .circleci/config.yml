@@ -1,0 +1,10 @@
+version: 2
+jobs:
+  build:
+    docker:
+      - image: samdoshi/haskell-stack
+    steps:
+      - checkout
+      - run: stack setup
+      - run: stack build
+      - run: stack test

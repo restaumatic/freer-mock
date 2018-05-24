@@ -1,0 +1,42 @@
+name:                freer-mock
+version:             1.0.0
+license:             ISC
+author:              "Restaumatic Team"
+maintainer:          "developers@restaumatic.com"
+copyright:           "2018 Restaumatic Team"
+
+extra-source-files:
+- README.md
+- LICENSE
+
+# Metadata used when publishing your package
+# synopsis:            Short description of your package
+# category:            Web
+
+# To avoid duplicated efforts in documentation and dealing with the
+# complications of embedding Haddock markup inside cabal files, it is
+# common to point users to the README.md file.
+description:         Please see the README on GitHub at <https://github.com/restaumatic/freer-mock#readme>
+
+dependencies:
+- base >= 4.7 && < 5
+- freer
+- mtl
+- constraints
+- dependent-sum
+- dependent-sum-template
+
+library:
+  source-dirs: src
+
+tests:
+  freer-mock-test:
+    main:                Spec.hs
+    source-dirs:         test
+    ghc-options:
+    - -threaded
+    - -rtsopts
+    - -with-rtsopts=-N
+    dependencies:
+    - freer-mock
+    - hspec
