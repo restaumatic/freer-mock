@@ -8,7 +8,7 @@
 module Eff.Mock
   ( module Eff.Mock
   , inj
-  )where
+  ) where
 
 import           Control.Monad.State   (State, runState)
 import qualified Control.Monad.State   as State
@@ -16,6 +16,7 @@ import           Data.Dependent.Sum    (DSum (..))
 import           Data.Functor.Identity (Identity (..))
 import           Data.GADT.Compare     ((:~:) (Refl), GEq, geq)
 import           Data.GADT.Show        (GShow, gshow)
+import           Data.Maybe            (listToMaybe, mapMaybe)
 import           Data.Open.Union       (Union, inj)
 import           Data.Open.Union.Extra ()
 import           Eff                   (Arr, Eff, run)
@@ -138,3 +139,24 @@ runMockU actions req =
           | otherwise
               -> error $ " argument mismatch: " ++ "  given: " ++
                    gshow action ++ "\n" ++ "  expected: " ++ gshow action' ++ "\n"
+
+type MockQueries effs = [DSumI (Union effs)]
+
+runMockQueries :: forall effs a. (GShow (Union effs), GEq (Union effs))
+  => [DSumI (Union effs)] -> Eff effs a -> a
+runMockQueries queries = runIdentity . foldEffM (handle queries)
+  where
+    handle :: forall f a. (GEq f, GShow f) => [DSumI f] -> f a -> Identity a
+    handle queries q =
+      case findQuery q queries of
+        Nothing ->
+          error $ "Unhandled action: " ++ gshow q ++ "\n"
+        Just r ->
+          pure r
+
+    findQuery :: forall f a. GEq f => f a -> [DSumI f] -> Maybe a
+    findQuery q = listToMaybe . mapMaybe match
+      where
+        match (q' :=> Identity r)
+          | Just Refl <- geq q q'  = Just r
+          | otherwise              = Nothing
