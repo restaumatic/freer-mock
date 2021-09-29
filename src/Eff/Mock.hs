@@ -14,11 +14,12 @@ import           Control.Monad.State   (State, runState)
 import qualified Control.Monad.State   as State
 import           Data.Dependent.Sum    (DSum (..))
 import           Data.Functor.Identity (Identity (..))
-import           Data.GADT.Compare     ((:~:) (Refl), GEq, geq)
+import           Data.GADT.Compare     (GEq, geq)
 import           Data.GADT.Show        (GShow, gshow)
 import           Data.Maybe            (listToMaybe, mapMaybe)
 import           Data.Open.Union       (Union, inj)
 import           Data.Open.Union.Extra ()
+import           Data.Type.Equality    ((:~:) (Refl))
 import           Eff                   (Arr, Eff, run)
 import           Eff.Extra.Fold        (foldEffM)
 import qualified Eff.Internal          as EI
