@@ -30,6 +30,7 @@ library:
   source-dirs: src
   exposed-modules:
   - Eff.Mock
+  - Eff.Extra.Fold
 
 tests:
   freer-mock-test:
