@@ -1,0 +1,56 @@
+cabal-version: 1.12
+
+-- This file has been generated from package.yaml by hpack version 0.34.4.
+--
+-- see: https://github.com/sol/hpack
+
+name:           freer-mock
+version:        1.0.0
+description:    Please see the README on GitHub at <https://github.com/restaumatic/freer-mock#readme>
+author:         Restaumatic Team
+maintainer:     developers@restaumatic.com
+copyright:      2018 Restaumatic Team
+license:        ISC
+license-file:   LICENSE
+build-type:     Simple
+extra-source-files:
+    README.md
+    LICENSE
+
+library
+  exposed-modules:
+      Eff.Mock
+      Eff.Extra.Fold
+  other-modules:
+      Data.Open.Union.Extra
+      Paths_freer_mock
+  hs-source-dirs:
+      src
+  build-depends:
+      base >=4.7 && <5
+    , constraints
+    , dependent-sum
+    , dependent-sum-template
+    , freer
+    , mtl
+  default-language: Haskell2010
+
+test-suite freer-mock-test
+  type: exitcode-stdio-1.0
+  main-is: Spec.hs
+  other-modules:
+      Eff.MockSpec
+      Paths_freer_mock
+  hs-source-dirs:
+      test
+  ghc-options: -threaded -rtsopts -with-rtsopts=-N
+  build-depends:
+      base >=4.7 && <5
+    , constraints
+    , dependent-sum
+    , dependent-sum-template
+    , freer
+    , freer-mock
+    , hspec
+    , mtl
+  default-language: Haskell2010
